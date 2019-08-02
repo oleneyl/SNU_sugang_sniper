@@ -4,6 +4,7 @@ import { create } from 'domain';
 
 const ADD_TEXT = 'ADD_TEXT';
 const CLEAR_TEXT = 'CLEAR_TEXT';
+const UPDATE_CONNECTION = 'UPDATE_CONNECTION';
 
 export const addText = createAction(ADD_TEXT, (text, location) => {
     return {text : text, location : location};
@@ -13,9 +14,14 @@ export const clearText = createAction(CLEAR_TEXT, () => {
     return null;
 })
 
+export const updateConnection = createAction(UPDATE_CONNECTION,  (connection) => {
+    return {connection};
+})
+
 const initialState = {
     logs : [],
-    result : []
+    result : [],
+    connection : false
 }
 
 export default handleActions({
@@ -32,5 +38,8 @@ export default handleActions({
     },
     [CLEAR_TEXT] : (state, action) => {
         return state.set('logs', List([]));
+    },
+    [UPDATE_CONNECTION] : (state, {payload : {connection}}) => {
+        return state.set('connection', connection);
     }
 }, fromJS(initialState));
