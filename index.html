@@ -1,0 +1,53 @@
+<html>
+  <head>
+    <meta charset=”utf-8">
+    <title>Socket</title>
+    <style>
+    body { font: 13px Helvetica, Arial; }
+    form input { border: 0; padding: 10px; width: 90%; margin-right:.5%; }
+    #button { width: 250px; background: rgb(130, 224, 255); border: none; padding: 10px; height : 30px;}
+    #res_0 { width : 250px; height : 100px; margin: 0; padding: 0; }
+    </style>
+  </head>
+  <body>
+    <div id='res_0'></div>
+    <div id='button' style='width:100px;height:20px;'>button</div>
+    <div id='request_permission' style='width:100px;height:50px;background-color:#ccc'>Request permission</div>
+    <script src='/socket.io/socket.io.js'></script>
+    <script>
+        const socket = io();
+        let click = 0;
+        socket.on('detectedChange', (msg) => {
+            let newElement = document.createElement('li');
+            let today = new Date();   
+            let textNode = document.createTextNode(msg.body + today.toTimeString());
+            newElement.appendChild(textNode);
+            document.getElementById('res_0').appendChild(newElement);
+            let options = {
+                body : msg.body,
+            };
+            let notification = new Notification(msg.title, options);
+            setTimeout(function () {
+                notification.close();
+            }, 5000);
+        });
+        document.getElementById('button').onclick = (e) => {
+            socket.emit('chat message', 'Clicked ' + click);
+            click += 1;
+        }
+
+        let requestPermissionButton = document.getElementById('request_permission');
+        //Permission
+        requestPermissionButton.onclick = () => {
+            Notification.requestPermission(function (result) {
+                if (result === 'denied') {
+                    return;
+                }
+                else {
+                    return;
+                }
+            });
+        };
+    </script>
+  </body>
+</html>
