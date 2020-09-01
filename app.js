@@ -4,6 +4,8 @@ const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 const get_subject_status = require('./subjectQuery');
 
+const configuration = require('./configuration');
+
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/index.html');
 });
@@ -37,11 +39,14 @@ start_polling = (subject_id, interval, options = {}) => {
     return timer_id;
 }
 
-start_polling('430.217', 4000);
-start_polling('430.211', 4000);
-start_polling('430.317', 4000, {
-    profName : '이광복'
-});
+
+configuration.map(obj=> {
+    if(obj.profName){
+        start_polling(obj.id, obj.polling_interval, {profName:obj.profName});
+    }else{
+        start_polling(obj.id, obj.polling_interval);
+    }
+})
 
 http.listen(3030, () => {
     console.log('Connected at 3030');

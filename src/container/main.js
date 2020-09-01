@@ -12,7 +12,8 @@ const SOCKET_URL = 'localhost:3030';
 const establishConnection = (actions) => {
     const socket = socketIOClient(SOCKET_URL);
     socket.on('detectedChange', (msg) => {
-        actions.addText(msg);
+        console.log(msg);
+        actions.addText(msg.title + ' | ' + msg.body);
         let notification = new Notification(msg.title, {body : msg.body});
         setTimeout(function () {
             notification.close();
@@ -32,7 +33,7 @@ class DetectionTextpiece extends Component {
         return (
             <div style={{
                 textAlign : this.props.log.location,
-                margin : this.props.log.location === 'right' ? '0 0 0 400px' : '0 400px 0 0'
+                margin : this.props.log.location === 'right' ? '0 0 0 150px' : '0 150px 0 0'
             }}>
                 <div style={{
                     margin : 2,
