@@ -15,6 +15,8 @@ Subject-sniper
 
   - node app.js & npm run start
   - localhost:3000 에서 실행됩니다.
+  - 좌상단의 CONNECT를 눌러 관찰을 시작해주세요.
+  - Alert가 너무 많이 오면 새로고침으로 connection을 끊어주세요.
 
 
 - configuration setting
